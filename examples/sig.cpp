@@ -14,12 +14,13 @@ int main() {
     std::cout << "Enabled signatures:\n" << oqs::Sigs::get_enabled_sigs();
 
     oqs::bytes message = "This is the message to sign"_bytes;
+    unsigned char *seed = NULL;
     std::string sig_name = "Dilithium2";
     oqs::Signature signer{sig_name};
     std::cout << "\n\nSignature details:\n" << signer.get_details();
 
     oqs::Timer<std::chrono::microseconds> t;
-    oqs::bytes signer_public_key = signer.generate_keypair();
+    oqs::bytes signer_public_key = signer.generate_keypair(seed);
     t.toc();
     std::cout << "\n\nSigner public key:\n" << oqs::hex_chop(signer_public_key);
     std::cout << "\n\nIt took " << t << " microsecs to generate the key pair";

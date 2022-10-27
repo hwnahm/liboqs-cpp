@@ -601,12 +601,12 @@ class Signature {
      * \brief Generate public key/secret key pair
      * \return Public key
      */
-    bytes generate_keypair() {
+    bytes generate_keypair(uint8_t* seed) {
         bytes public_key(get_details().length_public_key, 0);
         secret_key_ = bytes(alg_details_.length_secret_key, 0);
 
         OQS_STATUS rv_ = C::OQS_SIG_keypair(sig_.get(), public_key.data(),
-                                            secret_key_.data());
+                                            secret_key_.data(), seed);
         if (rv_ != OQS_STATUS::OQS_SUCCESS)
             throw std::runtime_error("Can not generate keypair");
 
