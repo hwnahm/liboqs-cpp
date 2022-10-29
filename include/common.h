@@ -37,6 +37,7 @@ inline std::string oqs_version() { return oqs::C::OQS_version(); }
  * \brief liboqs-cpp version string
  * \return liboqs-cpp version string
  */
+#define OQS_CPP_VERSION "0.7.2"
 inline std::string oqs_cpp_version() { return OQS_CPP_VERSION; }
 
 /**
