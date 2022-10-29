@@ -18,7 +18,7 @@ static std::vector<std::string> no_thread_sig_patterns{"Rainbow-III",
 // used for thread-safe console output
 static std::mutex mu;
 
-void test_sig_correctness(const std::string& sig_name, const oqs::bytes& msg, unsigned char *seed) {
+void test_sig_correctness(const std::string& sig_name, const oqs::bytes& msg, const oqs::bytes& seed) {
     {
         std::lock_guard<std::mutex> lg{mu};
         std::cout << "Correctness - " << sig_name << std::endl;
@@ -34,7 +34,7 @@ void test_sig_correctness(const std::string& sig_name, const oqs::bytes& msg, un
 }
 
 void test_sig_wrong_signature(const std::string& sig_name,
-                              const oqs::bytes& msg, unsigned char *seed) {
+                              const oqs::bytes& msg, const oqs::bytes& seed) {
     {
         std::lock_guard<std::mutex> lg{mu};
         std::cout << "Wrong signature - " << sig_name << std::endl;
@@ -52,7 +52,7 @@ void test_sig_wrong_signature(const std::string& sig_name,
 }
 
 void test_sig_wrong_public_key(const std::string& sig_name,
-                               const oqs::bytes& msg, unsigned char *seed) {
+                               const oqs::bytes& msg, const oqs::bytes& seed) {
     {
         std::lock_guard<std::mutex> lg{mu};
         std::cout << "Wrong public key - " << sig_name << std::endl;
@@ -72,7 +72,7 @@ void test_sig_wrong_public_key(const std::string& sig_name,
 
 TEST(oqs_Signature, Correctness) {
     oqs::bytes message = "This is our favourite message to sign"_bytes;
-    unsigned char *seed = NULL;
+    oqs::bytes seed = ""_bytes;
     std::vector<std::thread> thread_pool;
     std::vector<std::string> enabled_sigs = oqs::Sigs::get_enabled_sigs();
     // first test sigs that belong to no_thread_sig_patterns[] in the main
@@ -104,7 +104,7 @@ TEST(oqs_Signature, Correctness) {
 
 TEST(oqs_Signature, WrongSignature) {
     oqs::bytes message = "This is our favourite message to sign"_bytes;
-    unsigned char *seed = NULL;
+    oqs::bytes seed = ""_bytes;
     std::vector<std::thread> thread_pool;
     std::vector<std::string> enabled_sigs = oqs::Sigs::get_enabled_sigs();
     // first test sigs that belong to no_thread_sig_patterns[] in the main
@@ -137,7 +137,7 @@ TEST(oqs_Signature, WrongSignature) {
 
 TEST(oqs_Signature, WrongPublicKey) {
     oqs::bytes message = "This is our favourite message to sign"_bytes;
-    unsigned char *seed = NULL;
+    oqs::bytes seed = ""_bytes;
     std::vector<std::thread> thread_pool;
     std::vector<std::string> enabled_sigs = oqs::Sigs::get_enabled_sigs();
     // first test sigs that belong to no_thread_sig_patterns[] in the main

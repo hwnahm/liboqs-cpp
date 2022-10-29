@@ -485,6 +485,7 @@ class Signature {
                                          C::OQS_SIG_free(p);
                                      }}; ///< liboqs smart pointer to C::OQS_SIG
     bytes secret_key_{};                 ///< secret key
+    bytes seed_{};                       ///< seed
 
   public:
     /**
@@ -604,12 +605,13 @@ class Signature {
      * \brief Generate public key/secret key pair
      * \return Public key
      */
-    bytes generate_keypair(uint8_t* seed) {
+    bytes generate_keypair(const bytes& seed) {
         bytes public_key(get_details().length_public_key, 0);
         secret_key_ = bytes(alg_details_.length_secret_key, 0);
+        seed_ = seed;
 
         OQS_STATUS rv_ = C::OQS_SIG_keypair(sig_.get(), public_key.data(),
-                                            secret_key_.data(), seed);
+                                            secret_key_.data(), seed_.data());
         if (rv_ != OQS_STATUS::OQS_SUCCESS)
             throw std::runtime_error("Can not generate keypair");
 
