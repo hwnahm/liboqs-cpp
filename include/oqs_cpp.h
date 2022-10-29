@@ -495,6 +495,7 @@ class Signature {
         std::string version;
         std::size_t claimed_nist_level;
         bool is_euf_cma;
+        std::size_t length_seed;
         std::size_t length_public_key;
         std::size_t length_secret_key;
         std::size_t max_length_signature;
@@ -528,6 +529,7 @@ class Signature {
         alg_details_.version = sig_->alg_version;
         alg_details_.claimed_nist_level = sig_->claimed_nist_level;
         alg_details_.is_euf_cma = sig_->euf_cma;
+        alg_details_.length_seed = sig_->length_seed;
         alg_details_.length_public_key = sig_->length_public_key;
         alg_details_.length_secret_key = sig_->length_secret_key;
         alg_details_.max_length_signature = sig_->length_signature;
